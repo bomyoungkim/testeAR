@@ -10,40 +10,57 @@
       margin: 0;
       padding: 0;
       display: flex;
-      justify-content: center;
+      flex-direction: column;
       align-items: center;
+      justify-content: center;
       height: 100vh;
       background-color: #f0f0f0;
     }
     model-viewer {
       width: 100%;
-      height: 100%;
+      height: 80%;
+    }
+    input, select {
+      margin: 10px;
     }
   </style>
 </head>
 <body>
   <input type="file" id="fileInput" accept=".glb,.gltf" />
+  <select id="modelSelect">
+    <option value="models/model.glb">Sofa</option>
+    <option value="models/model2.glb">Model 2</option>
+    <option value="models/model3.glb">Model 3</option>
+  </select>
   <model-viewer 
     id="viewer"
-    src="" 
+    src="gltf/model.glb" 
     alt="3D Model" 
     ar 
     ar-modes="webxr scene-viewer quick-look" 
     camera-controls 
     auto-rotate 
-    shadow-intensity="1">
+    shadow-intensity="1"
+    placement="floor">
   </model-viewer>
 
   <script>
     const fileInput = document.getElementById('fileInput');
+    const modelSelect = document.getElementById('modelSelect');
     const viewer = document.getElementById('viewer');
 
+    // Load model from device
     fileInput.addEventListener('change', (event) => {
       const file = event.target.files[0];
       if (file) {
         const url = URL.createObjectURL(file);
         viewer.src = url;
       }
+    });
+
+    // Load model from hosted folder
+    modelSelect.addEventListener('change', (event) => {
+      viewer.src = event.target.value;
     });
   </script>
 </body>
